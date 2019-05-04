@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Cadastro Etec</title>
+</h:head>
+<h:body>
+	<p:growl id="msgs" widgetVar="msg" showDetail="false" 
+		sticky="false" life="7500"/>
+		
+	<h:form id="form">
+		<p:commandButton id="btnNovo"
+						 title="Novo"
+						 value="Novo"
+						 icon="ui-icon-plus"
+						 oncomplete="PF('dgLoader').show()"/>
+		
+	</h:form>
+	
+	<p:dialog header="Incluir ETEC" widgetVar="dgLoader" modal="true" resizable="true"
+		showHeader="true">
+		<p:graphicImage name="ajax-loader.gif" library="images"/>
+		
+		<h:panelGrid columns="2">
+		
+		<h:outputLabel value="Nome:"/>
+		<h:inputText value="#{cadastroMB.edit.nome}"/>
+		
+		<h:outputLabel value="Código:"/>
+		<h:inputText value="#{cadastroMB.edit.id}"/>
+		
+		<h:outputLabel value="CEP:"/>
+		<h:inputText value="#{cadastroMB.edit.cep}"/>
+		
+		<h:outputLabel value="Endereço:"/>
+		<h:inputText value="#{cadastroMB.edit.endereco}"/>
+		
+		<h:outputLabel value="Bairro:"/>
+		<h:inputText value="#{cadastroMB.edit.bairro}"/>
+		
+		<h:outputLabel value="Cidade:"/>
+		<h:inputText value="#{cadastroMB.edit.cidade}"/>
+		
+		</h:panelGrid>
+		
+		
+		<f:facet name="footer">
+			<p:outputPanel layout="block" style="text-align:center"/>
+				<p:commandButton value="Confirmar" icon="ui-icon-check"
+					update=":msgs form"
+					actionListener="#{cadastroMB.onSave}"/>
+				<p:commandButton value="Cancelar"  icon="ui-icon-close"
+					oncomplete="PF('dgLoader').hide()"/>
+		</f:facet>
+			
+	</p:dialog>
+	
+	<p:ajaxStatus onstart="PF('dgLoader).show()"
+		onsuccess="PF('dgLoader').hide()"/>
+</h:body>
+</html>
