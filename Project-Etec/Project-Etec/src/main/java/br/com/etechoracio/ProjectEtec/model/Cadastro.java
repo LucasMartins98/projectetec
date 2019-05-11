@@ -1,4 +1,4 @@
-package br.com.etechoracio.model;
+package br.com.etechoracio.ProjectEtec.model;
 
 import java.util.Date;
 
@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import br.com.etechoracio.common.model.BaseORM;
@@ -19,11 +20,14 @@ import lombok.Setter;
 public class Cadastro extends BaseORM {
 	
 	@Id @GeneratedValue
-	@Column(name="COD_ETEC")
+	@Column(name="ID_ETEC")
 	private Long id;
 	
 	@Column(name="NOME_ETEC")
 	private String nome;
+	
+	@Column(name="COD_ETEC")
+	private int codigo;
 	
 	@Column(name="CEP_ETEC")
 	private String cep;
@@ -45,5 +49,12 @@ public class Cadastro extends BaseORM {
 	
 	@Column(name="DT_CRIA")
 	private Date dt_criacao;
+	
+	@PrePersist
+	private void preencherDataCriacao() {
+		if(dt_criacao == null) {
+			dt_criacao  = new Date();
+		}
+	}
 	
 }

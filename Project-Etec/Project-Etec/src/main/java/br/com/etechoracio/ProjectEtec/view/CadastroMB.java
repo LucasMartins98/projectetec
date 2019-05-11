@@ -1,12 +1,12 @@
-package br.com.etechoracio.view;
+package br.com.etechoracio.ProjectEtec.view;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import br.com.etechoracio.business.CadastroSB;
+import br.com.etechoracio.ProjectEtec.business.CadastroSB;
+import br.com.etechoracio.ProjectEtec.model.Cadastro;
 import br.com.etechoracio.common.view.BaseMB;
-import br.com.etechoracio.model.Cadastro;
 import lombok.Getter;
 import lombok.Setter;
 
