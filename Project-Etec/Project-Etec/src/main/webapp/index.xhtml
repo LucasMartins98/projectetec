@@ -1,137 +1,127 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Cadastro Etec</title>
-	 <script type="text/javascript" >
-    
-    function limpa_formulário_cep() {
-            //Limpa valores do formulário de cep.
-            document.getElementById('rua').value=("");
-            document.getElementById('bairro').value=("");
-            document.getElementById('cidade').value=("");
-    }
+	<script type="text/javascript">
+		function limpa_formulÃ¡rio_cep() {
+			//Limpa valores do formulÃ¡rio de cep.
+			document.getElementById('logradouro').value = ("");
+			document.getElementById('bairro').value = ("");
+			document.getElementById('cidade').value = ("");
+		}
+		function meu_callback(conteudo) {
+			if (!("erro" in conteudo)) {
+				//Atualiza os campos com os valores.
+				document.getElementById('frmDialog:logradouro').value = (conteudo.logradouro);
+				document.getElementById('frmDialog:bairro').value = (conteudo.bairro);
+				document.getElementById('frmDialog:cidade').value = (conteudo.localidade);
+			} //end if.
+			else {
+				//CEP nÃ£o Encontrado.
+				limpa_formulÃ¡rio_cep();
+				alert("CEP nÃ£o encontrado.");
+			}
+		}
+		function pesquisacep(valor) {
+			//Nova variÃ¡vel "cep" somente com dÃ­gitos.
+			var cep = valor.replace(/\D/g, '');
+			//Verifica se campo cep possui valor informado.
+			if (cep != "") {
+				//ExpressÃ£o regular para validar o CEP.
+				var validacep = /^[0-9]{8}$/;
+				//Valida o formato do CEP.
+				if (validacep.test(cep)) {
 
-    function meu_callback(conteudo) {
-        if (!("erro" in conteudo)) {
-            //Atualiza os campos com os valores.
-            document.getElementById('rua').value=(conteudo.logradouro);
-            document.getElementById('bairro').value=(conteudo.bairro);
-            document.getElementById('cidade').value=(conteudo.localidade);
-        } //end if.
-        else {
-            //CEP não Encontrado.
-            limpa_formulário_cep();
-            alert("CEP não encontrado.");
-        }
-    }
-        
-    function pesquisacep(valor) {
-
-        //Nova variável "cep" somente com dígitos.
-        var cep = valor.replace(/\D/g, '');
-
-        //Verifica se campo cep possui valor informado.
-        if (cep != "") {
-
-            //Expressão regular para validar o CEP.
-            var validacep = /^[0-9]{8}$/;
-
-            //Valida o formato do CEP.
-            if(validacep.test(cep)) {
-
-                //Preenche os campos com "..." enquanto consulta webservice.
-                document.getElementById('rua').value="...";
-                document.getElementById('bairro').value="...";
-                document.getElementById('cidade').value="...";
-
-                //Cria um elemento javascript.
-                var script = document.createElement('script');
-
-                //Sincroniza com o callback.
-                script.src = 'https://viacep.com.br/ws/'+ cep + '/json/?callback=meu_callback';
-
-                //Insere script no documento e carrega o conteúdo.
-                document.body.appendChild(script);
-
-            } //end if.
-            else {
-                //cep é inválido.
-                limpa_formulário_cep();
-                alert("Formato de CEP inválido.");
-            }
-        } //end if.
-        else {
-            //cep sem valor, limpa formulário.
-            limpa_formulário_cep();
-        }
-    };
-
-    </script>
+					//Cria um elemento javascript.
+					var script = document.createElement('script');
+					//Sincroniza com o callback.
+					script.src = 'https://viacep.com.br/ws/' + cep + '/json/?callback=meu_callback';
+							
+					//Insere script no documento e carrega o conteÃºdo.
+					document.body.appendChild(script);
+				} //end if.
+				else {
+					//cep Ã© invÃ¡lido.
+					limpa_formulÃ¡rio_cep();
+					alert("Formato de CEP invÃ¡lido.");
+				}
+			} //end if.
+			else {
+				limpa_formulÃ¡rio_cep();
+			}
+		};
+	</script>
 </h:head>
 <h:body>
-	<p:growl id="msgs" widgetVar="msg" showDetail="false" 
-		sticky="false" life="7500"/>
-		
-	<p:dialog widgetVar="dgLoader" modal="true" resizable="false" showHeader="false">
-		<p:graphicImage name="ajax-loader.gif" library="images"/>
-	</p:dialog>
-	
-	<p:ajaxStatus onstart="PF('dgLoader).show()"
-		onsuccess="PF('dgLoader').hide()"/>
-		
+	<p:growl id="msgs" widgetVar="msg" showDetail="false" sticky="false"
+		life="7500" />
+
 	<h:form id="form">
-		<p:commandButton id="btnNovo"
-						 title="Novo"
-						 value="Novo"
-						 icon="ui-icon-plus"
-						 oncomplete="PF('dgCadastro').show()"/>
-		
+		<p:commandButton id="btnNovo" title="Novo" value="Novo"
+			icon="ui-icon-plus" oncomplete="PF('dgCadastro').show()" />
+
 	</h:form>
-	
-	<h:form id="frmDialog">
-	<p:dialog header="Incluir ETEC" widgetVar="dgCadastro" modal="true" resizable="true"
-		showHeader="true">
-		
-		
-		<h:panelGrid columns="2">
-		
-		<h:outputLabel value="Nome:"/>
-		<h:inputText value="#{cadastroMB.edit.nome}" />
-		
-		<h:outputLabel value="Código:"/>
-		<h:inputText value="#{cadastroMB.edit.codigo}"/>
-		
-		<h:outputLabel value="CEP:"/>
-		<h:inputText onblur="pesquisacep(this.value);" value="#{cadastroMB.edit.cep}"/>
-		
-		<h:outputLabel value="Endereço:"/>
-		<h:inputText id="rua" value="#{cadastroMB.edit.endereco}"/>
-		
-		<h:outputLabel value="Bairro:"/>
-		<h:inputText id="bairro" value="#{cadastroMB.edit.bairro}"/>
-		
-		<h:outputLabel value="Cidade:"/>
-		<h:inputText id="cidade" value="#{cadastroMB.edit.cidade}"/>
-		
-		</h:panelGrid>
-		
-		
-		<f:facet name="footer">
-			<p:outputPanel layout="block" style="text-align:center"/>
-				<p:commandButton value="Confirmar" icon="ui-icon-check"
-					update=":msgs form"
-					actionListener="#{cadastroMB.onSave()}"/>
-				<p:commandButton value="Cancelar"  icon="ui-icon-close"
-					oncomplete="PF('dgCadastro').hide()"/>
-		</f:facet>
-			
+
+	<p:ajaxStatus onstart="PF('dgLoader).show()"
+		onsuccess="PF('dgLoader').hide()" />
+	<p:dialog widgetVar="dgLoader" modal="true" resizable="false"
+		showHeader="false" draggable="false" closable="false">
+		<p:graphicImage name="ajax-loader.gif" library="images" />
 	</p:dialog>
-	
+
+
+
+
+	<h:form id="frmDialog">
+		<p:dialog header="Incluir ETEC" widgetVar="dgCadastro" modal="true"
+			resizable="true" showHeader="true">
+
+
+			<h:panelGrid columns="2">
+
+				<h:outputText value="Nome:" />
+				<p:inputText name="Nome" id="Nome" value="#{cadastroMB.edit.nome}" />
+
+				<h:outputText value="CÃ³digo:" />
+				<p:inputText name="codigo" id="codigo"
+					value="#{cadastroMB.edit.codigo}" />
+
+				<h:outputText value="CEP:" />
+				<p:inputText onblur="pesquisacep(this.value)"
+					value="#{cadastroMB.edit.cep}" name="cep" id="cep"  />
+
+				<h:outputText value="EndereÃ§o:" />
+				<p:inputText id="logradouro" name="logradouro"
+					value="#{cadastroMB.edit.endereco}" />
+
+				<h:outputText value="Bairro:" />
+				<p:inputText id="bairro" name="bairro"
+					value="#{cadastroMB.edit.bairro}" />
+
+				<h:outputText value="Cidade:" />
+				<p:inputText id="cidade" name="cidade"
+					value="#{cadastroMB.edit.cidade}" />
+
+			</h:panelGrid>
+
+
+			<f:facet name="footer">
+				<p:outputPanel layout="block" style="text-align:center" />
+				<p:commandButton value="Confirmar" icon="ui-icon-check"
+					update=":msgs form" actionListener="#{cadastroMB.onSave()}" />
+				<p:commandButton value="Cancelar" icon="ui-icon-close"
+					oncomplete="PF('dgCadastro').hide()" />
+			</f:facet>
+
+		</p:dialog>
+
 	</h:form>
+
+
 </h:body>
 </html>

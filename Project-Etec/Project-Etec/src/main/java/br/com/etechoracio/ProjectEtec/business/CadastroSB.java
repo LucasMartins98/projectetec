@@ -2,6 +2,8 @@ package br.com.etechoracio.ProjectEtec.business;
 
 
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,4 +27,10 @@ public class CadastroSB extends BaseSB {
 	public void save(Cadastro cadastro) {
 		cadastroDAO.save(cadastro);
 	}
+	
+	@Transactional(propagation = Propagation.NOT_SUPPORTED)
+	public List<Cadastro> findAll(){
+		return cadastroDAO.findAll();
+	}
+	
 }
