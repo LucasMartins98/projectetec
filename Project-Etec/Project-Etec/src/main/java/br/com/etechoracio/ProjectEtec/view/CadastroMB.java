@@ -1,9 +1,7 @@
 package br.com.etechoracio.ProjectEtec.view;
 
-import java.util.ArrayList;
-import java.util.List;
 
-import org.primefaces.model.DualListModel;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -25,22 +23,15 @@ public class CadastroMB extends BaseMB {
 	
 	private Cadastro edit = new Cadastro();
 	
-	private DualListModel<Cadastro> cadastros;
 	
-	
-	public void postConstruct() {
-		List<Cadastro> source = cadastroSB.findAll();
-		cadastros = new DualListModel<Cadastro>(source, new ArrayList<Cadastro>());
-	}
-	
-	
-	public void onSave() {	
-		if(cadastros.getTarget().size() > 2){
-			showErrorMessage("Etec já cadastrada");
+	public void onSave() {
+		try {
+			cadastroSB.save(edit);
+			showInsertMessage();
+		} catch (Exception e) {
+			showErrorMessage(e.getMessage());
 		}
 		
-		cadastroSB.save(edit);
-		showInsertMessage();
 	}
 	
 }
