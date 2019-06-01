@@ -42,10 +42,6 @@ public class CadastroSB extends BaseSB {
 		}
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED)
-	public void update(Cadastro cadastro) {
-		
-	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void remove(Cadastro cadastro) {
