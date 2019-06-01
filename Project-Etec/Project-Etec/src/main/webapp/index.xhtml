@@ -82,7 +82,7 @@
 			resizable="true" showHeader="true">
 
 
-			<h:panelGrid columns="2">
+			<h:panelGrid columns="2" id="pngTudo">
 
 				<h:outputText value="Nome:" />
 				<p:inputText name="Nome" id="Nome" value="#{cadastroMB.edit.nome}" />
@@ -113,7 +113,7 @@
 			<f:facet name="footer">
 				<p:outputPanel layout="block" style="text-align:center" />
 				<p:commandButton value="Confirmar" icon="ui-icon-check"
-					update=":msgs form tblRegistros" actionListener="#{cadastroMB.onSave()}" />
+					update=":msgs form tblRegistros pngTudo" actionListener="#{cadastroMB.onSave()}" />
 				<p:commandButton value="Cancelar" icon="ui-icon-close"
 					oncomplete="PF('dgCadastro').hide()" />
 			</f:facet>
@@ -123,11 +123,12 @@
 
 	</h:form>
 	
+	
 	<p:panel header="Registros" id="pnlResultado"
 			style="width:98%; border:0">
 							 
 
-			<p:dataTable id="tblRegistros" value="#{cadastroMB.registros}"
+			<p:dataTable id="tblRegistros" var="mec" value="#{cadastroMB.registros}"
 				emptyMessage="Nenhum registro encontrado" reflow="true"
 				paginator="true" rows="10" rowsPerPageTemplate="5,10,15"
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink}
@@ -136,30 +137,37 @@
 							 					{RowsPerPageDropdown}">
 
 				<p:column headerText="Nome ETEC" style="white-space: pre-wrap">
-					<h:outputText value="#{cadastroMB.edit.nome}" />
+					<h:outputText value="#{mec.nome}" />
 				</p:column>
 				<p:column headerText="Código ETEC" style="white-space: pre-wrap">
-					<h:outputText value="#{cadastroMB.edit.codigo}" />
+					<h:outputText value="#{mec.codigo}" />
 				</p:column>
 				<p:column headerText="Endereço" style="white-space: pre-wrap">
-					<h:outputText value="#{cadastroMB.edit.endereco}" />
+					<h:outputText value="#{mec.endereco}" />
 				</p:column>
 				<p:column headerText="Bairro" style="white-space: pre-wrap">
-					<h:outputText value="#{cadastroMB.edit.bairro}" />
+					<h:outputText value="#{mec.bairro}" />
 				</p:column>
 				<p:column headerText="Cidade" style="white-space: pre-wrap">
-					<h:outputText value="#{cadastroMB.edit.cidade}" />
+					<h:outputText value="#{mec.cidade}" />
 				</p:column>
 
 				<p:column style="text-align:center;">
-					<p:commandButton id="btnExcluir" icon="ui-icon-close"
-						title="Excluir" />
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+									 id="btnExcluir"
+									 actionListener="#{cadastroMB.onRemove(mec)}"
+									 update="tblRegistros"/>
+					<p:commandButton icon="ui-icon-pencil" title="Alterar"
+									 actionListener="#{cadastroMB.onUpdate(mec)}" 
+									 update="tblRegistros"
+									 process="tblRegistros"
+									 onClick="PF('dgCadastro').show()"/>
 				</p:column>
 
 			</p:dataTable>
 
 		</p:panel>
-
+		
 
 </h:body>
 </html>

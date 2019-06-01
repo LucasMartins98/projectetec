@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import br.com.etechoracio.ProjectEtec.business.CadastroSB;
 import br.com.etechoracio.ProjectEtec.model.Cadastro;
 import br.com.etechoracio.common.view.BaseMB;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,6 +24,8 @@ public class CadastroMB extends BaseMB {
 	@Autowired
 	private CadastroSB cadastroSB;
 	
+	Cadastro cadastroAdd = new Cadastro();
+	
 	private List<Cadastro> registros;
 	
 	private Cadastro edit = new Cadastro();
@@ -31,7 +34,15 @@ public class CadastroMB extends BaseMB {
 		registros = cadastroSB.findAll();
 	}
 	
+	public void onRemove(Cadastro cadastro) {
+		cadastroSB.remove(cadastro);
+		registros = cadastroSB.findAll();
+		showDeleteMessage();
+	}
 	
+	public void onUpdate(Cadastro cadastro){
+		cadastroAdd = cadastro;
+	} 
 	public void onSave() {
 		try {
 			cadastroSB.save(edit);

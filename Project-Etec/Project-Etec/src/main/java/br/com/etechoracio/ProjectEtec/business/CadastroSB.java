@@ -15,6 +15,7 @@ import br.com.etechoracio.ProjectEtec.dao.CadastroDAO;
 import br.com.etechoracio.ProjectEtec.model.Cadastro;
 import br.com.etechoracio.common.business.BaseSB;
 
+
 @Service
 public class CadastroSB extends BaseSB {
 
@@ -41,6 +42,11 @@ public class CadastroSB extends BaseSB {
 		}
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void remove(Cadastro cadastro) {
+		cadastroDAO.delete(cadastro);
+	}
+		
 	@Transactional(propagation = Propagation.NOT_SUPPORTED)
 	public List<Cadastro> findAll() {
 		return cadastroDAO.findAll();
