@@ -112,8 +112,10 @@
 
 			<f:facet name="footer">
 				<p:outputPanel layout="block" style="text-align:center" />
+				
 				<p:commandButton value="Confirmar" icon="ui-icon-check"
-					update=":msgs form tblRegistros pngTudo" actionListener="#{cadastroMB.onSave()}" />
+					update=":msgs form tblRegistros" actionListener="#{cadastroMB.onSave()}" />
+					
 				<p:commandButton value="Cancelar" icon="ui-icon-close"
 					oncomplete="PF('dgCadastro').hide()" />
 			</f:facet>
@@ -122,7 +124,9 @@
 		
 
 	</h:form>
-	
+	<br/>
+	<br/>
+	<br/>
 	
 	<p:panel header="Registros" id="pnlResultado"
 			style="width:98%; border:0">
@@ -139,15 +143,19 @@
 				<p:column headerText="Nome ETEC" style="white-space: pre-wrap">
 					<h:outputText value="#{mec.nome}" />
 				</p:column>
+				
 				<p:column headerText="Código ETEC" style="white-space: pre-wrap">
 					<h:outputText value="#{mec.codigo}" />
 				</p:column>
+				
 				<p:column headerText="Endereço" style="white-space: pre-wrap">
 					<h:outputText value="#{mec.endereco}" />
 				</p:column>
+				
 				<p:column headerText="Bairro" style="white-space: pre-wrap">
 					<h:outputText value="#{mec.bairro}" />
 				</p:column>
+				
 				<p:column headerText="Cidade" style="white-space: pre-wrap">
 					<h:outputText value="#{mec.cidade}" />
 				</p:column>
@@ -157,11 +165,12 @@
 									 id="btnExcluir"
 									 actionListener="#{cadastroMB.onRemove(mec)}"
 									 update="tblRegistros"/>
+									 
 					<p:commandButton icon="ui-icon-pencil" title="Alterar"
 									 actionListener="#{cadastroMB.onUpdate(mec)}" 
-									 update="tblRegistros"
+									 update="tblRegistros frmDialog"
 									 process="tblRegistros"
-									 onClick="PF('dgCadastro').show()"/>
+									 oncomplete="PF('dgCadastro').show()"/>
 				</p:column>
 
 			</p:dataTable>

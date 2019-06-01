@@ -24,7 +24,6 @@ public class CadastroMB extends BaseMB {
 	@Autowired
 	private CadastroSB cadastroSB;
 	
-	Cadastro cadastroAdd = new Cadastro();
 	
 	private List<Cadastro> registros;
 	
@@ -41,11 +40,13 @@ public class CadastroMB extends BaseMB {
 	}
 	
 	public void onUpdate(Cadastro cadastro){
-		cadastroAdd = cadastro;
+		edit = cadastro;
 	} 
+	
 	public void onSave() {
 		try {
 			cadastroSB.save(edit);
+			registros = cadastroSB.findAll();
 			showInsertMessage();
 		} catch (Exception e) {
 			showErrorMessage(e.getMessage());
